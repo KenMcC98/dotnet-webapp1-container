@@ -1,0 +1,11 @@
+services:
+  app:
+    # image: localhost/local-net-ubi8:0.0.1
+    image: localhost/local-net8-wa1:0.0.1
+    ports:
+      - 8089:8080
+    volumes:
+      - ./certs:/etc/certs
+    environment:
+      ASPNETCORE_URLS: "https://+:8080"
+      ASPNETCORE_ENVIRONMENT: "Container"
