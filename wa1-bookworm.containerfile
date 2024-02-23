@@ -1,15 +1,12 @@
-FROM localhost/net8-ubi8:latest
+FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim
 
-RUN dnf -y install openssl
+RUN apt-get -y install openssl
 
 WORKDIR /app
 COPY "./WebApplication1" .
 RUN rm -rf ./bin && rm -rf ./obj
 
 RUN dotnet publish ./WebApplication1.csproj -o /app/publish
-
-# RUN chmod u=+rw /proc/sys/crypto
-# RUN echo "1" > /proc/sys/crypto/fips_enabled
 
 WORKDIR /app/publish
 ENTRYPOINT [ "dotnet", "WebApplication1.dll" ]

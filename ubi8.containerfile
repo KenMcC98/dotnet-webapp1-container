@@ -15,7 +15,4 @@ ENV \
     # Enable detection of running in a container
     DOTNET_RUNNING_IN_CONTAINER=true
 
-# RUN dnf deplist dotnet && \
-#     dnf search --showduplicates openssl
-
 RUN dnf -y install dotnet-sdk-8.0.x86_64
