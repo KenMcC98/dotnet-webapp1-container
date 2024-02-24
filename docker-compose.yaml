@@ -1,42 +1,69 @@
 services:
-  wa1:
-    image: localhost/wa1-ubi8:0.0.1
+  n8-wa1-ubi8:
+    image: localhost/n8-wa1-ubi8:0.0.1
     ports:
-      - 8090:8080
+      - 8081:8080
     volumes:
       - ./certs:/etc/certs:Z
     environment:
       ASPNETCORE_URLS: "https://+:8080"
       ASPNETCORE_ENVIRONMENT: "Container"
-  wa1-fips:
-    image: localhost/wa1-ubi8:0.0.1
+  n8-wa1-ubi8-fips:
+    image: localhost/n8-wa1-ubi8:0.0.1
     ports:
-      - 8089:8080
+      - 8082:8080
     volumes:
       - ./certs:/etc/certs:Z
     environment:
       ASPNETCORE_URLS: "https://+:8080"
       ASPNETCORE_ENVIRONMENT: "Container"
-      OPENSSL_FIPS: 1
       OPENSSL_FORCE_FIPS_MODE: 1
-  wa1-jammy:
-    image: localhost/wa1-jammy:0.0.1
+  n6-wa1-ubi8-fips:
+    image: localhost/n6-wa1-ubi8:0.0.1
     ports:
-      - 8088:8080
+      - 8083:8080
     volumes:
       - ./certs:/etc/certs:Z
     environment:
       ASPNETCORE_URLS: "https://+:8080"
       ASPNETCORE_ENVIRONMENT: "Container"
-      OPENSSL_FIPS: 1
       OPENSSL_FORCE_FIPS_MODE: 1
-  wa1-bkwrm:
-    image: localhost/wa1-bookworm:0.0.1
+  n8-wa1-fedora-fips:
+    image: localhost/n8-wa1-fedora:0.0.1
     ports:
-      - 8087:8080
+      - 8084:8080
     volumes:
       - ./certs:/etc/certs:Z
     environment:
       ASPNETCORE_URLS: "https://+:8080"
       ASPNETCORE_ENVIRONMENT: "Container"
-      OPENSSL_FIPS: "1"
+      OPENSSL_FORCE_FIPS_MODE: 1
+  n6-wa1-fedora-fips:
+    image: localhost/n6-wa1-fedora:0.0.1
+    ports:
+      - 8085:8080
+    volumes:
+      - ./certs:/etc/certs:Z
+    environment:
+      ASPNETCORE_URLS: "https://+:8080"
+      ASPNETCORE_ENVIRONMENT: "Container"
+      OPENSSL_FORCE_FIPS_MODE: 1
+  # wa1-jammy:
+  #   image: localhost/wa1-jammy:0.0.1
+  #   ports:
+  #     - 8088:8080
+  #   volumes:
+  #     - ./certs:/etc/certs:Z
+  #     # - ./ua:/
+  #   environment:
+  #     ASPNETCORE_URLS: "https://+:8080"
+  #     ASPNETCORE_ENVIRONMENT: "Container"
+  # wa1-bkwrm:
+  #   image: localhost/wa1-bookworm:0.0.1
+  #   ports:
+  #     - 8087:8080
+  #   volumes:
+  #     - ./certs:/etc/certs:Z
+  #   environment:
+  #     ASPNETCORE_URLS: "https://+:8080"
+  #     ASPNETCORE_ENVIRONMENT: "Container"
