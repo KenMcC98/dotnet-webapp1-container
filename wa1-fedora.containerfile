@@ -1,6 +1,6 @@
 FROM registry.fedoraproject.org/fedora:39
 
-ARG DOTNET_MAJOR="8"
+ARG DOTNET_TARGET_VERSION="8"
 
 ENV \
     # Do not generate certificate
@@ -17,13 +17,13 @@ ENV \
     # Enable detection of running in a container
     DOTNET_RUNNING_IN_CONTAINER=true
 
-RUN dnf -y install openssl dotnet-sdk-${DOTNET_MAJOR}.0.x86_64
+RUN dnf -y install openssl dotnet-sdk-6.0.x86_64 dotnet-sdk-8.0.x86_64
 
 WORKDIR /app
 COPY "./WebApplication1" .
 RUN rm -rf ./bin && rm -rf ./obj
 
-RUN dotnet publish ./WebApplication1.csproj -o /app/publish
+RUN dotnet publish ./WebApplication1.csproj -o /app/publish -f "net${DOTNET_TARGET_VERSION}.0"
 
 WORKDIR /app/publish
 ENTRYPOINT [ "dotnet", "WebApplication1.dll" ]
