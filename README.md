@@ -52,6 +52,9 @@ To generate sample certs, run this in the root project folder
 ./openssl-certs.sh
 ```
 
+**Note:** if using Windows Git Bash, replace the `openssl req` command in the
+sh file with the commented-out alternative, which uses windows-specific back-slashes.
+
 ### Build App Images
 
 To test the variety of scenarios, the following set of images will be built:
