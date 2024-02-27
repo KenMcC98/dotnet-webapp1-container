@@ -48,31 +48,3 @@ services:
       ASPNETCORE_URLS: "https://+:8080"
       ASPNETCORE_ENVIRONMENT: "Container"
       OPENSSL_FORCE_FIPS_MODE: 1
-  n8-wa1-bkwrm-fips:
-    image: localhost/n8-wa1-bookworm:0.0.1
-    ports:
-      - 8086:8080
-    volumes:
-      - ./certs:/etc/certs:Z
-    environment:
-      ASPNETCORE_URLS: "https://+:8080"
-      ASPNETCORE_ENVIRONMENT: "Container"
-  # wa1-jammy:
-  #   image: localhost/wa1-jammy:0.0.1
-  #   ports:
-  #     - 8088:8080
-  #   volumes:
-  #     - ./certs:/etc/certs:Z
-  #     # - ./ua:/
-  #   environment:
-  #     ASPNETCORE_URLS: "https://+:8080"
-  #     ASPNETCORE_ENVIRONMENT: "Container"
-  # wa1-bkwrm:
-  #   image: localhost/wa1-bookworm:0.0.1
-  #   ports:
-  #     - 8087:8080
-  #   volumes:
-  #     - ./certs:/etc/certs:Z
-  #   environment:
-  #     ASPNETCORE_URLS: "https://+:8080"
-  #     ASPNETCORE_ENVIRONMENT: "Container"

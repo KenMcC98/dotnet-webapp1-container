@@ -20,10 +20,24 @@ $ curl -kv https://<openshift-url>:8089/weatherforecast
 curl: (35) OpenSSL/3.1.1: error:0A000460:SSL routines::reason(1120)
 ```
 
+When receiving this curl error, the .NET WebApi generates a debug-level log containing the exception:
+
+```
+System.Security.Authentication.AuthenticationException: Authentication failed, see inner exception.
+ ---> Interop+OpenSsl+SslException: SSL Handshake failed with OpenSSL error - SSL_ERROR_SSL.
+ ---> Interop+Crypto+OpenSslCryptographicException: error:142320EB:SSL routines:tls_handle_alpn:no application protocol
+   --- End of inner exception stack trace ---
+   at Interop.OpenSsl.DoSslHandshake(SafeSslHandle context, ReadOnlySpan`1 input, Byte[]& sendBuf, Int32& sendCount)
+�   at System.Net.Security.SslStreamPal.HandshakeInternal(SafeDeleteSslContext& context, ReadOnlySpan`1 inputBuffer, Byte[]& outputBuffer, SslAuthenticationOptions sslAuthenticationOptions)
+   --- End of inner exception stack trace ---
+�   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+�   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+```
+
 The error would appear only when the container was in FIPS mode on OpenShift,
 with successful execution when running the same container locally/in a non-FIPS environment.
 
-A .NET 6 app did not experience this issue at all in the same scenario.
+A .NET 6 WebApi doesn't experience this issue at all in the same scenarios.
 
 ## Recreating the SSL Error Locally
 
@@ -57,15 +71,15 @@ sh file with the commented-out alternative, which uses windows-specific back-sla
 
 ### Build App Images
 
-To test the variety of scenarios, the following set of images will be built:
+To test the variety of scenarios, the following set of WebApplication1 (wa1) images will be built:
 
-* `n8-wa1-ubi8`
+* `n8-wa1-ubi8` - .NET 8 on ubi8
   * *works without FIPS, **<u>error</u>** with FIPS*
-* `n6-wa1-ubi8`
+* `n6-wa1-ubi8` - .NET 6 on ubi8
   * *works without FIPS, works with FIPS*
-* `n8-wa1-fedora`
+* `n8-wa1-fedora` - .NET 8 on Fedora 39
   * *works without FIPS, **<u>error</u>** with FIPS*
-* `n6-wa1-fedora`
+* `n6-wa1-fedora` - .NET 6 on Fedora 39
   * *works without FIPS, works with FIPS*
   
 **NOTE:** FIPS is set using environment variables in the `docker-compose.yaml` file, so we build FIPS-agnostic images here.
@@ -104,6 +118,7 @@ podman-compose up
 
 This will use the included `docker-compose.yaml` file.
 Five containers will be spawned, with the `./certs/` folder mounted:
+
 * `n8-wa1-ubi8`
 * *`n8-wa1-ubi8-fips` - error occurs*
 * `n6-wa1-ubi8-fips`
@@ -112,7 +127,7 @@ Five containers will be spawned, with the `./certs/` folder mounted:
 
 ### Curl the Endpoints
 
-The containers can be accessed via curl, with `n8-*-fips` containers experiencing
+The containers can be accessed via curl, with `n8-wa1-*-fips` containers experiencing
 the above SSL error, and the others being successful:
 
 ```sh
