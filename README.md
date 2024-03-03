@@ -55,8 +55,8 @@ Containerfiles used:
 * `wa1-fedora.containerfile`
 * `wa1-ubi8.containerfile`
 
-Below lists the steps to recreate the SSL error locally in
-with FIPS enforced for OpenSSL through env variable `OPENSSL_FORCE_FIPS_MODE=1`. 
+Below lists the steps to recreate the SSL error locally,
+with FIPS mode for OpenSSL through env variable `OPENSSL_FORCE_FIPS_MODE=1`. 
 
 ### Generate Certs
 
