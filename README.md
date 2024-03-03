@@ -1,7 +1,7 @@
 # .NET 8 and ubi8-FIPS SSL Error
 
 The following error originally occurred when trying to connect to a simple
-.NET 8 WebApi, using curl or a web browser with TLSv1.3, when hosted in a pod
+.NET 8 WebApi, using curl or a Chromium web browser with TLSv1.3, when hosted in a pod
 on a FIPS-enabled OpenShift Cluster:
 
 ```
